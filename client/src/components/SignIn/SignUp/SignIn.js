@@ -45,10 +45,7 @@ function SignIn({ setLoader }) {
 
   return (
     <div
-    // className="hero"
-    // style={{
-    //   background: "linear-gradient(45deg,#C63D2F,#E25E3E,#FF9B50 ,#FFBB5C )",
-    // }}
+    className="tbody" style={{background: "linear-gradient(315deg, #FFBB5C 3%, #FF9B50 38%, #E25E3E 68%, #C63D2F 98%)"}}
     >
       <div class="wave"></div>
       <div class="wave"></div>

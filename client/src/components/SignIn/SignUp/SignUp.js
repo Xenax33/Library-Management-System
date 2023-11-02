@@ -169,12 +169,7 @@ function SignUp({ setLoader }) {
   };
 
   return (
-    <div
-      // className="hero"
-      // style={{
-      //   background: "linear-gradient(45deg,#C63D2F,#E25E3E,#FF9B50 ,#FFBB5C )",
-      // }}
-    >
+    <div className="tbody">
       <div class="wave"></div>
       <div class="wave"></div>
       <div class="wave"></div>

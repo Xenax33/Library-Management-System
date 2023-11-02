@@ -1,0 +1,72 @@
+/* Page.css */
+.hero {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  padding: 0 5%;
+  align-items: center;
+  justify-content: center;
+  background-image: url("https://res.cloudinary.com/djiqxvcin/image/upload/v1696183343/background_vq0aot.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.hover{
+  
+}
+
+.hover:hover{
+  transition: 400ms;
+  transform: scale(1.04);
+}
+
+nav {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 80px;
+  margin-right: 10px; /* Add some margin between the logo and text */
+}
+
+.logo:hover{
+  transition: 400ms;
+  transform: scale(1.04);
+}
+
+h1 {
+  font-size: 24px; /* Example font size */
+  margin: 0; /* Reset margin for <h1> elements */
+}
+
+nav ul li {
+  list-style: none;
+  display: inline-block;
+  margin-left: 40px;
+}
+
+
+.d-flex {
+  display: flex; /* Make its children appear in a row */
+  align-items: center; /* Center items vertically within the parent container */
+}
+
+.about-us {
+  position: absolute;
+  top: 40%; /* Adjust the top position as needed */
+  left: 120px; /* Position on the left side of the screen */
+
+}
+
+/* .about-us:hover{
+  transition: 400ms;
+  transform: scale(1.01);
+} */

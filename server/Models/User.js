@@ -4,29 +4,32 @@ const router = express.Router();
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  username: {
+  Name: {
     type: String,
     require: true,
+  },
+  Email: {
+    type: String,
     unique: true,
-  },
-  email: {
-    type: String,
-    unique: true,
     require: true,
   },
-  password: {
+  Password: {
     type: String,
     require: true,
   },
-  Date: {
+  CreatedAt: {
     type: Date,
     default: Date.now,
   },
-  Role: {
-    type: String,
-    require: true,
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
-  Address: {
+  Active: {
+    type: Boolean,
+    default: true,
+  },
+  CNIC: {
     type: String,
     require: true,
   },
@@ -38,6 +41,6 @@ const UserSchema = new Schema({
     type:String,
     data: Buffer,
   }
-});
+}, {timestamps : true });
 
 module.exports = mongoose.model("user", UserSchema);

@@ -5,12 +5,15 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors());
-app.use(express.json({limit: '50mb'}));
-const Port = process.env.Port || 8081;
+const Port = 8080;
 
 app.use('/api/User' , require('./Routes/User'));
-app.use('/api/Product' , require('./Routes/Product'));
-app.use('/api/Order' , require('./Routes/Order'));
+app.use('/api/UserAudit' , require('./Routes/UserAudit'));
+app.use('/api/Books' , require('./Routes/Books'));
+app.use('/api/Category' , require('./Routes/Category'));
+app.use('/api/RentBook' , require('./Routes/RentBook'));
+app.use('/api/Reserved' , require('./Routes/Reserved'));
+// app.use('/api/Order' , require('./Routes/Order'));
 
 connectToMongo();
 app.listen(Port, () => console.log("Server is running"));

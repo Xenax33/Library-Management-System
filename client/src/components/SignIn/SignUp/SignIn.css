@@ -1,0 +1,40 @@
+.card {
+  position: absolute; /* Change from relative to absolute */
+  top: 50%; /* Move the top edge to the vertical center */
+  left: 50%; /* Move the left edge to the horizontal center */
+  transform: translate(-50%, -50%); /* Center the element using a transform */
+  transition: transform 400ms;
+  width: 45%;
+  padding: 10px;
+  border-radius: 15px;
+  /* opacity: 80%; */
+}
+
+
+.card-footer{
+    background-color: transparent;
+}
+
+.card-header{
+  background-color: transparent;
+}
+
+.card:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  /* transition: 400ms; */
+  /* transform: scale(1.04); */
+
+}
+
+.hero {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    padding: 0 5%;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+}
+  

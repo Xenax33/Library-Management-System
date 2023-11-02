@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoURI = "mongodb://127.0.0.1:27017/PointOfSale"
-
+const mongoURI = "mongodb://127.0.0.1:27017/LibraryManagementSystem"
 
 async function getconnection(){
     await mongoose.connect(mongoURI).then(

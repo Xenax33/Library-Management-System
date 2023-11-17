@@ -8,6 +8,7 @@ import Spinner from "./components/Spin";
 import SideBar from "./components/Admin/SideBar";
 import Members from "./components/Admin/Members";
 import Books from "./components/Admin/Books";
+import AddBook from "./components/Admin/AddBooks";
 
 function App() {
   const [Loader, setLoader] = useState(false);
@@ -20,6 +21,7 @@ function App() {
           <Route  path="/dashboard" element={<SideBar />}>
             <Route index path="members" element={<Members />} />
             <Route index path="books" element={<Books />} />
+            <Route index path="addbook" element={<AddBook />} />
           </Route>
           <Route
             index

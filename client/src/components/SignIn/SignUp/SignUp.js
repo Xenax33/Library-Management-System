@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,49 +15,25 @@ function SignUp({ setLoader }) {
     CNIC: "",
     Image: "",
   });
-  const [File, setFile] = useState(null);
-
-  const updateImage = (newImageValue) => {
-    // Create a new object with the updated Image value
-    const updatedUser = {
-      ...User, // Copy the existing User object
-      Image: newImageValue, // Update the Image property
-    };
-
-    // Set the new User object using setUser
-    setUser(updatedUser);
-  };
 
   const SignUp = async (e) => {
-    e.preventDefault();
-    await setLoader(true);
-    if (File) {
-      await processFile();
-    }
-    const response = await axios
-      .post("/api/User/create", User)
-      .then((res) => {
-        if (response.data.success) {
-          navigate("/signin");
-          alert("User Created");
-        } else {
-          alert("user not created");
-        }
-      })
+    try {
+      e.preventDefault();
+      setLoader(true);
 
-      // Catch errors if any
-      .catch((err) => {
-        console.error(err);
-        alert("An error occurred while creating the user");
-      });
+      const response = await axios.post("/api/User/create", User);
 
-    await setLoader(false);
-  };
-
-  const Image = async (e) => {
-    await setFile(e.target.files[0]);
-    if (!File) {
-      alert("Please select either jpg or png file.");
+      if (response.data.success) {
+        navigate("/signin");
+      } else {
+        setLoader(false);
+        alert("User not created");
+      }
+      setLoader(false);
+    } catch (error) {
+      console.error(error);
+      setLoader(false);
+      alert("An error occurred while creating the user");
     }
   };
 
@@ -66,19 +42,25 @@ function SignUp({ setLoader }) {
   };
 
   const Loader = async () => {
-    // Set the loader to true initially
-    console.log("pressed");
     setLoader(true);
-
-    // Use setTimeout to set the loader to false after 3 seconds (3000 milliseconds)
-    await setTimeout(() => {
-      setLoader(false);
-      console.log("done");
-    }, 3000);
+  };
+  const UnLoader = async () => {
+    setLoader(false);
   };
 
+  const imageClick = async (e) =>
+  {
+    await Loader()
+    setLoader(true);
+    processFile(e);
+    setLoader(false);
+    await UnLoader()
+  }
+
+
   const processFile = async (e) => {
-    var file = File;
+    await Loader();
+    var file = e.target.files[0];;
 
     // Set your cloud name and unsigned upload preset here:
     var YOUR_CLOUD_NAME = "djiqxvcin";
@@ -114,11 +96,8 @@ function SignUp({ setLoader }) {
     }
 
     function send(piece, start, end, size) {
-      console.log("start ", start);
-      console.log("end", end);
 
       var formdata = new FormData();
-      console.log(XUniqueUploadId);
 
       formdata.append("file", piece);
       formdata.append("cloud_name", YOUR_CLOUD_NAME);
@@ -133,25 +112,28 @@ function SignUp({ setLoader }) {
         "bytes " + start + "-" + end + "/" + size
       );
 
-      xhr.onload = function () {
+      xhr.onload =function () {
         // do something to response
-        console.log(this.responseText);
         const jsonString = this.responseText; // Your JSON data as a string
         const responseObject = JSON.parse(jsonString);
         const urlData = responseObject.url;
-        updateImage(urlData);
-        const updatedUser = {
-          ...User, // Copy the existing User object
-          Image: urlData, // Update the Image property
-        };
+        console.log(`url: ${urlData}`)
+        User.Image = urlData;
+        handleImageUpdate(urlData);
+        handleImageUpdate(urlData);
 
-        // Set the new User object using setUser
-        setUser(updatedUser);
-        console.log("url: " + urlData);
       };
 
       xhr.send(formdata);
     }
+
+    const handleImageUpdate = (urlData) => {
+      setUser((prevUser) => ({
+        ...prevUser,
+        Image: urlData,
+      }));
+    };
+    
 
     function slice(file, start, end) {
       var slice = file.mozSlice
@@ -166,14 +148,12 @@ function SignUp({ setLoader }) {
     }
 
     function noop() {}
+    await UnLoader();
   };
 
   return (
-    <div className="tbody">
-      <div class="wave"></div>
-      <div class="wave"></div>
-      <div class="wave"></div>
-      <div className="card" style={{ width: "55%" }}>
+    <body className="hero" style={{background: "linear-gradient(315deg, #FFBB5C 3%, #FF9B50 38%, #E25E3E 68%, #C63D2F 98%)"}}>
+      <div className="card">
         <div className="card-header text-center">
           <div className="d-flex justify-content-center">
             <img className="logo" src="Logo.png" alt="Logo" />
@@ -249,7 +229,7 @@ function SignUp({ setLoader }) {
                     id="formFileSm"
                     type="file"
                     accept="image/*"
-                    onChange={Image}
+                    onChange={imageClick}
                   />
                 </div>
               </div>
@@ -293,7 +273,7 @@ function SignUp({ setLoader }) {
           </div>
         </div>
       </div>
-    </div>
+    </body>
   );
 }
 

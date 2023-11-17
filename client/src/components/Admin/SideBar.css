@@ -42,7 +42,7 @@ body.dark{
     background: var(--sidebar-color);
     transition: var(--tran-05);
     z-index: 100;  
-    display: block !important;
+    display: block;
     padding-bottom: 2%;
 }
 .sidebar.close{

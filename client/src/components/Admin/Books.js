@@ -10,13 +10,13 @@ function Books() {
   let filteredBooks = Books; // Initialize filteredBooks with Books initially
 
   // ...
-  
+
   if (Books) {
     filteredBooks = Books.filter((book) => {
       return book.Title.toLowerCase().includes(searchTitle.toLowerCase());
     });
   }
-  
+
   const getData = async () => {
     try {
       const response = await axios.get("/api/Books/getBooks");
@@ -59,26 +59,19 @@ function Books() {
       <div className="text-center my-3">
         <h1 style={{ fontWeight: "bolder" }}>Books</h1>
       </div>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button
-          className="button2 btn"
-          type="button"
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-          onClick={AddBook}
-        >
-          Add Product
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary"
-          data-bs-toggle={Modal ? "modal" : ""}
-          data-bs-target={Modal ? "#staticBackdrop" : ""}
-          onClick={AddBook}
-        >
-          Launch static backdrop modal
-        </button>
-      </div>
+      <Link to={"/dashboard/addbook"}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button
+            className="button2"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            onClick={AddBook}
+          >
+            Add Book
+          </button>
+        </div>
+      </Link>
       <div className="my-5 d-flex justify-content-between">
         <div>
           <div className="mb-2 Search-box">
@@ -157,7 +150,7 @@ function Books() {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
+        // aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">

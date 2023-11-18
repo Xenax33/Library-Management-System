@@ -133,7 +133,7 @@ function Books() {
                       <td>{book.Fine}</td>
                       <td>{book.IsAvailable ? "Yes" : "No"}</td>
                       <td>{book.Language}</td>
-                      <td>{book.Category}</td>
+                      <td>{book.CategoryId}</td>
                       <td>{getDate(book.CreatedAt)}</td>
                     </tr>
                   ))}

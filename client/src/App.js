@@ -21,7 +21,7 @@ function App() {
           <Route  path="/dashboard" element={<SideBar />}>
             <Route index path="members" element={<Members />} />
             <Route index path="books" element={<Books />} />
-            <Route index path="addbook" element={<AddBook />} />
+            <Route index path="addbook" element={<AddBook  setLoader={setLoader}/>} />
           </Route>
           <Route
             index

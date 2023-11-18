@@ -51,9 +51,12 @@ function SignUp({ setLoader }) {
   const imageClick = async (e) =>
   {
     await Loader()
-    setLoader(true);
-    processFile(e);
-    setLoader(false);
+    if(e.target.files[0] !== null)
+    {
+      setLoader(true);
+      processFile(e);
+      setLoader(false);
+    }
     await UnLoader()
   }
 

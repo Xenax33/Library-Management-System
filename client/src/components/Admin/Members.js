@@ -5,6 +5,17 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 function Members() {
   const [Members, setMembers] = useState([]);
   const navigate = useNavigate();
+  let filteredUsers = Members; // Initialize filteredBooks with Books initially
+  const [searchTitle, setsearchTitle] = useState("");
+
+
+  // ...
+
+  if (Members) {
+    filteredUsers = Members.filter((member) => {
+      return member.Email.toLowerCase().includes(searchTitle.toLowerCase());
+    });
+  }
 
   const getData = async () => {
     try {
@@ -20,6 +31,10 @@ function Members() {
   useEffect(() => {
     getData();
   }, []);
+
+  const onSearchChange = (e) => {
+    setsearchTitle(e.target.value);
+  };
 
   const getDate = (date) => {
     const dateObject = new Date(date); // Replace this with the Date object you retrieved from the database
@@ -40,7 +55,7 @@ function Members() {
               <input
                 type="text"
                 placeholder="Search Email..."
-                // onChange={onSearchChange}
+                onChange={onSearchChange}
                 autoComplete="new-password"
               />
             </div>
@@ -68,9 +83,9 @@ function Members() {
                 </tr>
               </thead>
               <tbody>
-                {Members &&
-                  Array.isArray(Members) &&
-                  Members.map((member) => (
+                {filteredUsers &&
+                  Array.isArray(filteredUsers) &&
+                  filteredUsers.map((member) => (
                     <tr className="text" key={member._id}>
                       <td className="d-flex">
                         <img

@@ -268,10 +268,10 @@ function AddBooks({ setLoader }) {
         </div>
       </div>
       <div className=" my-3 d-flex justify-content-center">
-        <button className="button2 mx-3" onClick={addBook}>
+        <button className="button2 mx-3" disabled={Book.Title === "" || Book.Author === "" || Book.Fine ==="" || Book.CategoryId === "" || Book.ISBN === "" || Book.Image === "" || Book.Language === "" || Book.RentPrice === ""} onClick={addBook}>
           Add Book
         </button>
-        <button className="button1 mx-3" onClick={exit}>
+        <button className="button4 mx-3" onClick={exit}>
           Exit
         </button>
       </div>

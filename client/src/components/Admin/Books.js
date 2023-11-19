@@ -30,6 +30,15 @@ function Books() {
     }
   };
 
+  const handleEdit = (book) =>
+  {
+
+  }
+  const handleInfo = (book) =>
+  {
+    console.log(book)
+  }
+
   useEffect(() => {
     getData();
   }, []);
@@ -57,21 +66,9 @@ function Books() {
   return (
     <>
       <div className="text-center my-3">
-        <h1 style={{ fontWeight: "bolder" }}>Books</h1>
+        <h1 style={{ fontWeight: "bold" }}>BOOKS</h1>
       </div>
-      <Link to={"/dashboard/addbook"}>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button
-            className="button2"
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-            onClick={AddBook}
-          >
-            Add Book
-          </button>
-        </div>
-      </Link>
+
       <div className="my-5 d-flex justify-content-between">
         <div>
           <div className="mb-2 Search-box">
@@ -88,9 +85,19 @@ function Books() {
           </div>
         </div>
 
-        <div className="px-2">
-          <h5>Filters</h5>
-        </div>
+        <Link to={"/dashboard/addbook"}>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <button
+              className="button2"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              onClick={AddBook}
+            >
+              Add Book
+            </button>
+          </div>
+        </Link>
       </div>
 
       <div className="d-flex">
@@ -135,49 +142,35 @@ function Books() {
                       <td>{book.Language}</td>
                       <td>{book.CategoryId}</td>
                       <td>{getDate(book.CreatedAt)}</td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="dropbtn">
+                            {" "}
+                            <i>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                              >
+                                <g style={{ fill: "var(--toggle-color)" }}>
+                                  <circle cx="10" cy="15" r="2" />
+                                  <circle cx="10" cy="10" r="2" />
+                                  <circle cx="10" cy="5" r="2" />
+                                </g>
+                              </svg>
+                            </i>
+                          </button>
+                          <div class="dropdown-content">
+                            <button onClick={()=> handleEdit(book)}>Edit</button>
+                            <button onClick={() => handleInfo(book)}>Info</button>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                   ))}
               </tbody>
             </table>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        // aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Modal title
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">...</div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Understood
-              </button>
-            </div>
           </div>
         </div>
       </div>

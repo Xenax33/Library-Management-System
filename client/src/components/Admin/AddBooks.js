@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AddBooks.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function AddBooks({ setLoader }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { book } = location.state || {};
+  const [Edit, setEdit] = useState(true);
   const [Book, setBook] = useState({
     Title: "",
     Author: "",
@@ -15,33 +19,120 @@ function AddBooks({ setLoader }) {
     CategoryId: "",
   });
 
+  const [BookAudit, setBookAudit] = useState({
+    BookId: "",
+    TitleBefore: "",
+    TitleAfter: "",
+    AuthorBefore: "",
+    AuthorAfter: "",
+    ISBNbefore: "",
+    ISBNafter: "",
+    RentPriceBefore: "",
+    RentPriceAfter: "",
+    FineBefore: "",
+    FineAfter: "",
+    ImageBefore: "",
+    ImageAfter: "",
+    LanguageBefore: "",
+    LanguageAfter: "",
+    CategoryIdBefore: "",
+    CategoryIdAfter: "",
+  });
+
+  const [editBook, setEditBook] = useState({});
+
   const onchange = (e) => {
-    setBook({ ...Book, [e.target.name]: e.target.value });
+    if (Edit) {
+      setEditBook({ ...editBook, [e.target.name]: e.target.value });
+      setBookAudit((prevState) => ({
+        ...prevState,
+        TitleAfter: editBook.Title,
+        AuthorAfter: editBook.Author,
+        RentPriceAfter: editBook.RentPrice,
+        ImageAfter: editBook.Image,
+        FineAfter: editBook.Fine,
+        CategoryIdAfter: editBook.CategoryId,
+        LanguageAfter: editBook.Language,
+        ISBNafter: editBook.ISBN,
+      }));
+    } else {
+      setBook({ ...Book, [e.target.name]: e.target.value });
+    }
   };
 
   const onCategoryChange = (e) => {
-    const selectedCategory = Categories.find(category => category._id === e.target.value);
-    setBook({ ...Book, [e.target.name]: selectedCategory ? selectedCategory.Name : '' });
-    console.log(Book)
+    const selectedCategory = Categories.find(
+      (category) => category._id === e.target.value
+    );
+    if (Edit) {
+      setEditBook({
+        ...editBook,
+        [e.target.name]: selectedCategory ? selectedCategory.Name : "",
+      });
+    } else {
+      setBook({
+        ...Book,
+        [e.target.name]: selectedCategory ? selectedCategory.Name : "",
+      });
+    }
   };
 
   const [Categories, setCategories] = useState(null);
-  const navigate = useNavigate();
-  const [Languages, setLanguages] = useState(null);
 
   useEffect(() => {
     getData();
-  }, []);
+    if (book === undefined) {
+      setEdit(false);
+    } else {
+      setEditBook(book);
+      setBookAudit((prevState) => ({
+        ...prevState,
+        BookId: editBook._id,
+        TitleBefore: editBook.Title,
+        AuthorBefore: editBook.Author,
+        RentPriceBefore: editBook.RentPrice,
+        ImageBefore: editBook.Image,
+        FineBefore: editBook.Fine,
+        CategoryIdBefore: editBook.CategoryId,
+        LanguageBefore: editBook.Language,
+        ISBNbefore: editBook.ISBN,
+      }));
+    }
+  }, [book]); // Add book as a dependency
+
+  useEffect(() => {
+    console.log(BookAudit);
+    console.log(editBook);
+  }, [BookAudit, editBook]); // Add BookAudit and editBook as dependencies
 
   const getData = async () => {
     try {
       const response = await axios.get("/api/Category/");
       setCategories(response.data.data);
+      if (book !== undefined) {
+        setBookAudit((prevState) => ({
+          ...prevState,
+          BookId: book._id,
+          TitleBefore: book.Title,
+          AuthorBefore: book.Author,
+          RentPriceBefore: book.RentPrice,
+          ImageBefore: book.Image,
+          FineBefore: book.Fine,
+          CategoryIdBefore: book.CategoryId,
+          LanguageBefore: book.Language,
+          ISBNbefore: book.ISBN,
+        }));
+      }
     } catch (error) {
       alert("Error occured while reading data");
-      navigate("/dashboard/books");
+      navigate("/dashboard");
     }
   };
+
+  function hasEmptyValues(obj) {
+    // Check if any property in the object has an empty string value
+    return Object.values(obj).some((value) => value === "");
+  }
 
   const exit = (e) => {
     if (window.confirm("Are you sure you want to go back?")) {
@@ -56,22 +147,48 @@ function AddBooks({ setLoader }) {
   };
 
   const addBook = async (e) => {
-    try {
-      e.preventDefault();
-      setLoader(true);
-      const response = await axios.post("/api/Books/create", Book);
-
-      if (response.data.success) {
-        navigate("/dashboard/books");
-      } else {
+    e.preventDefault();
+    setLoader(true);
+    if (Edit) {
+      try {
+        const response = await axios.put(
+          "/api/Books/edit/" + editBook._id,
+          editBook
+        );
+        if (response.data.success) {
+          console.log(BookAudit);
+          const data = await axios.post("/api/BookAudit/create", BookAudit);
+          if (data.data.success) {
+            setLoader(false);
+            navigate("/dashboard/books");
+          } else {
+            setLoader(false);
+            alert("There was an error in Editing the desired book.");
+          }
+        } else {
+          setLoader(false);
+          alert("There was an error in Editing the desired book.");
+        }
+      } catch (err) {
         setLoader(false);
-        alert("Book not added");
+        alert("There was an error in Editing the desired book: " + err);
       }
-      setLoader(false);
-    } catch (error) {
-      console.error(error);
-      setLoader(false);
-      alert("An error occurred while adding the book.");
+    } else {
+      try {
+        const response = await axios.post("/api/Books/create", Book);
+
+        if (response.data.success) {
+          navigate("/dashboard/books");
+        } else {
+          setLoader(false);
+          alert("Book not added");
+        }
+        setLoader(false);
+      } catch (error) {
+        console.error(error);
+        setLoader(false);
+        alert("An error occurred while adding the book.");
+      }
     }
   };
 
@@ -111,13 +228,28 @@ function AddBooks({ setLoader }) {
       }
     }
 
+    function generateRandomString(length) {
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
+      }
+      return result;
+    }
+
     function send(piece, start, end, size) {
       var formdata = new FormData();
 
       formdata.append("file", piece);
       formdata.append("cloud_name", YOUR_CLOUD_NAME);
       formdata.append("upload_preset", YOUR_UNSIGNED_UPLOAD_PRESET);
-      formdata.append("public_id", Book.Title);
+      if (Edit) {
+        formdata.append("public_id", generateRandomString(11));
+      } else {
+        formdata.append("public_id", generateRandomString(10) + "zab");
+      }
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", POST_URL, false);
@@ -142,10 +274,17 @@ function AddBooks({ setLoader }) {
     }
 
     const handleImageUpdate = (urlData) => {
-      setBook((prevUser) => ({
-        ...prevUser,
-        Image: urlData,
-      }));
+      if (Edit) {
+        setEditBook((prevUser) => ({
+          ...prevUser,
+          Image: urlData,
+        }));
+      } else {
+        setBook((prevUser) => ({
+          ...prevUser,
+          Image: urlData,
+        }));
+      }
     };
 
     function slice(file, start, end) {
@@ -166,27 +305,41 @@ function AddBooks({ setLoader }) {
   return (
     <div className="text-center mx-3 justify-content-center">
       <h1 className="my-3" style={{ fontWeight: "bold" }}>
-        Add Book
+        {Edit ? "Edit Book" : "Add Book"}
       </h1>
+      {Edit && editBook.Image && (
+        <div className="square-image-box">
+          <img src={editBook.Image} alt="Book Cover" className="square-image" />
+        </div>
+      )}
+
       <div className="d-flex row my-3">
         <div className="col-md-6">
           <label className="form-label">Title</label>
           <input
             className="input form-control form-control-lg"
-            type="name"
+            type="text"
             name="Title"
             placeholder="Enter the Title"
             onChange={onchange}
+            value={
+              Edit && editBook && editBook.Title ? editBook.Title : Book.Title
+            }
           />
         </div>
         <div className="col-md-6">
           <label className="form-label">Author</label>
           <input
             className="input form-control form-control-lg"
-            type="name"
+            type="text"
             name="Author"
             placeholder="Enter the Author"
             onChange={onchange}
+            value={
+              Edit && editBook && editBook.Author
+                ? editBook.Author
+                : Book.Author
+            }
           />
         </div>
       </div>
@@ -198,6 +351,9 @@ function AddBooks({ setLoader }) {
             type="number"
             name="ISBN"
             placeholder="Enter the ISBN Number"
+            value={
+              Edit && editBook && editBook.ISBN ? editBook.ISBN : Book.ISBN
+            }
             onChange={onchange}
           />
         </div>
@@ -208,6 +364,11 @@ function AddBooks({ setLoader }) {
             type="number"
             name="RentPrice"
             placeholder="Enter the Rent Price"
+            value={
+              Edit && editBook && editBook.RentPrice
+                ? editBook.RentPrice
+                : Book.RentPrice
+            }
             onChange={onchange}
           />
         </div>
@@ -220,6 +381,9 @@ function AddBooks({ setLoader }) {
             type="number"
             name="Fine"
             placeholder="Enter the Fine per day in Rs"
+            value={
+              Edit && editBook && editBook.Fine ? editBook.Fine : Book.Fine
+            }
             onChange={onchange}
           />
         </div>
@@ -229,7 +393,9 @@ function AddBooks({ setLoader }) {
           </label>
           <input
             className="input form-control "
-            disabled={Book.Title === ""}
+            disabled={
+              (Edit && editBook.Title === "") || (!Edit && Book.Title === "")
+            }
             id="formFileSm"
             type="file"
             accept="image/*"
@@ -242,6 +408,11 @@ function AddBooks({ setLoader }) {
           <label className="form-label mx-3">Language</label>
           <input
             className="input form-control"
+            value={
+              Edit && editBook && editBook.Language
+                ? editBook.Language
+                : Book.Language
+            }
             type="text"
             name="Language"
             placeholder="Enter the Language"
@@ -260,7 +431,11 @@ function AddBooks({ setLoader }) {
             {Categories &&
               Array.isArray(Categories) &&
               Categories.map((category) => (
-                <option key={category._id} value={category._id}>
+                <option
+                  key={category._id}
+                  value={category._id}
+                  selected={editBook && editBook.CategoryId === category.Name}
+                >
                   {category.Name}
                 </option>
               ))}
@@ -268,8 +443,12 @@ function AddBooks({ setLoader }) {
         </div>
       </div>
       <div className=" my-3 d-flex justify-content-center">
-        <button className="button2 mx-3" disabled={Book.Title === "" || Book.Author === "" || Book.Fine ==="" || Book.CategoryId === "" || Book.ISBN === "" || Book.Image === "" || Book.Language === "" || Book.RentPrice === ""} onClick={addBook}>
-          Add Book
+        <button
+          className="button2 mx-3"
+          // disabled={hasEmptyValues(Book) || (Edit && hasEmptyValues(editBook))}
+          onClick={addBook}
+        >
+          Confirm
         </button>
         <button className="button4 mx-3" onClick={exit}>
           Exit

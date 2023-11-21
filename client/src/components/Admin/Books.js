@@ -4,6 +4,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 
 function Books() {
   const [Books, setBooks] = useState([]);
+  const [Book , setBook] = useState(null);
   const navigate = useNavigate();
   const [Modal, setModal] = useState(true);
   const [searchTitle, setsearchTitle] = useState("");
@@ -32,7 +33,7 @@ function Books() {
 
   const handleEdit = (book) =>
   {
-
+    navigate("/dashboard/addbook", { state: { book } });
   }
   const handleInfo = (book) =>
   {

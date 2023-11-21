@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: center;
   background-image: url("https://res.cloudinary.com/djiqxvcin/image/upload/v1696183343/background_vq0aot.png");
+  background-color: white;
   background-size: cover;
   background-position: center;
 }
@@ -58,6 +59,7 @@ nav ul li {
 
 .about-us {
   position: absolute;
+  cursor: pointer;
   top: 40%; /* Adjust the top position as needed */
   left: 120px; /* Position on the left side of the screen */
 

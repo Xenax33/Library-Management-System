@@ -17,4 +17,20 @@ router.post("/create" , async(req,res) =>
     });
     res.send({ success: true });
   })
+
+router.put("/edit/:id" , async(req,res) =>
+  {
+    try
+    {
+      const { id } = req.params;
+      const updatedBook = await Book.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.send({success: true , data : updatedBook})
+    }
+    catch(err)
+    {
+      res.send({success: false , error: err})
+    }
+  })
 module.exports = router;

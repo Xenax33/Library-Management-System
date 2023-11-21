@@ -9,6 +9,7 @@ import SideBar from "./components/Admin/SideBar";
 import Members from "./components/Admin/Members";
 import Books from "./components/Admin/Books";
 import AddBook from "./components/Admin/AddBooks";
+import Categories from "./components/Admin/Categories";
 
 function App() {
   const [Loader, setLoader] = useState(false);
@@ -22,6 +23,7 @@ function App() {
             <Route index path="members" element={<Members />} />
             <Route index path="books" element={<Books />} />
             <Route index path="addbook" element={<AddBook  setLoader={setLoader}/>} />
+            <Route index path="categories" element={<Categories  setLoader={setLoader}/>} />
           </Route>
           <Route
             index

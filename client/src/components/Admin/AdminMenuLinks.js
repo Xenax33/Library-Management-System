@@ -25,7 +25,7 @@ function AdminMenuLinks() {
         </Link>
       </li>
       <li>
-        <Link to={"/dashboard/books"}>
+        <Link to={"/dashboard/categories"}>
           <i className="bx bx-category-alt icon"></i>
           <span className="text nav-text">Categories</span>
         </Link>

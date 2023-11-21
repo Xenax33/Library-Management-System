@@ -34,10 +34,12 @@ function Members() {
     {
       try
       {
-        const response = await axios.get("/api/User/delete/" + member._id);
+        console.log(member._id)
+        const response = await axios.put("/api/User/delete/" + member._id);
         if(response.data.success)
         {
           alert("Member successfully deleted")
+          getData()
         }
         else
         {

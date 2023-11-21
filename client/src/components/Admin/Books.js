@@ -39,6 +39,27 @@ function Books() {
   {
     console.log(book)
   }
+  const handleDelete = async (book) =>
+  {
+    try
+    {
+      console.log(book._id)
+      const response = await axios.put("/api/Books/changeavailability/" + book._id);
+      if(response.data.success)
+      {
+        alert("Availability successfully changed")
+        getData()
+      }
+      else
+      {
+        alert("There was an error in making the changes")
+      }
+    }
+    catch(err)
+    {
+      alert("There was an error in making the changes")
+    }
+  }
 
   useEffect(() => {
     getData();
@@ -166,6 +187,7 @@ function Books() {
                           <div class="dropdown-content">
                             <button onClick={()=> handleEdit(book)}>Edit</button>
                             <button onClick={() => handleInfo(book)}>Info</button>
+                            <button onClick={() => handleDelete(book)}>Available</button>
                           </div>
                         </div>
                       </td>

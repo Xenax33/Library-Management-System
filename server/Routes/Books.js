@@ -33,4 +33,29 @@ router.put("/edit/:id" , async(req,res) =>
       res.send({success: false , error: err})
     }
   })
+  
+  router.put("/changeavailability/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      // Find the current book document
+      const currentBook = await Book.findById(id);
+  
+      if (!currentBook) {
+        return res.status(404).send({ success: false, error: "Book not found" });
+      }
+  
+      // Update the IsAvailable to the opposite value
+      currentBook.IsAvailable = !currentBook.IsAvailable;
+  
+      // Save the updated document
+      const updatedBook = await currentBook.save();
+  
+      res.send({ success: true, data: updatedBook });
+    } catch (err) {
+      res.status(500).send({ success: false, error: err.message });
+    }
+  });
+  
+
 module.exports = router;

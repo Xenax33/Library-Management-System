@@ -174,3 +174,23 @@ select:focus {
   display: block;
   z-index: 1;
 }
+
+
+#Table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #FF9B50;
+  color: white;
+  border: none;
+}
+
+#Table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border: none;
+}
+
+#Table tr:nth-child(even){background-color: #f2f2f2;}
+
+#Table tr:hover {background-color: #ddd;}

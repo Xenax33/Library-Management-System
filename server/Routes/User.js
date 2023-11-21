@@ -31,7 +31,7 @@ router.use(express.json());
 // });
 
 router.get("/getMembers", async (req, res) => {
-  const data = await User.find({ isAdmin: false });
+  const data = await User.find({ isAdmin: false , Active: true });
   res.send({ success: true, data: data });
 });
 
@@ -60,5 +60,16 @@ router.get("/logIn/:email/:password", async (req, res) => {
     console.error(error);
   }
 });
+
+router.put("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await User.findByIdAndUpdate(id, { Active: false }, { new: true });
+    res.send({ success: true, data });
+  } catch (err) {
+    res.send({ success: false, error: err.message });
+  }
+});
+
 
 module.exports = router;

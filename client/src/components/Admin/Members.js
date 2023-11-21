@@ -28,6 +28,34 @@ function Members() {
       navigate("/dashboard");    }
   };
 
+  const handleDelete = async (member) =>
+  {
+    if(window.confirm("Are you sure you want to delete?"))
+    {
+      try
+      {
+        const response = await axios.get("/api/User/delete/" + member._id);
+        if(response.data.success)
+        {
+          alert("Member successfully deleted")
+        }
+        else
+        {
+          alert("There was an error deleting the member");
+        }
+      }
+      catch(err)
+      {
+        alert("There was an error deleting the member");
+      }
+    }
+  }
+
+  const handleInfo = (member) =>
+  {
+
+  }
+
   useEffect(() => {
     getData();
   }, []);
@@ -70,7 +98,7 @@ function Members() {
       <div className="d-flex">
         <div className="container mt-5 px-2">
           <div className="table-responsive">
-            <table className="table table-responsive table-borderless">
+            <table className="table table-responsive table-borderless" id="Table">
               <thead>
                 <tr className="bg text">
                   <th className="text-center" scope="col">
@@ -80,6 +108,7 @@ function Members() {
                   <th scope="col">CNIC</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Joined On</th>
+                  <th scope="col"> </th>
                 </tr>
               </thead>
               <tbody>
@@ -102,6 +131,31 @@ function Members() {
                       <td>{member.CNIC}</td>
                       <td>{member.PhoneNo}</td>
                       <td>{getDate(member.CreatedAt)}</td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="dropbtn">
+                            {" "}
+                            <i>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                              >
+                                <g style={{ fill: "var(--toggle-color)" }}>
+                                  <circle cx="10" cy="15" r="2" />
+                                  <circle cx="10" cy="10" r="2" />
+                                  <circle cx="10" cy="5" r="2" />
+                                </g>
+                              </svg>
+                            </i>
+                          </button>
+                          <div class="dropdown-content">
+                            <button onClick={()=> handleInfo(member)}>Info</button>
+                            <button onClick={() => handleDelete(member)}>Delete</button>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                   ))}
               </tbody>

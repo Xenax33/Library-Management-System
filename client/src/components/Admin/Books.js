@@ -104,7 +104,7 @@ function Books() {
       <div className="d-flex">
         <div className="container mt-5 px-2">
           <div className="table-responsive">
-            <table className="table table-responsive table-borderless">
+            <table className="table table-responsive" id="Table">
               <thead>
                 <tr className="bg text">
                   <th className="text-center" scope="col">
@@ -118,6 +118,7 @@ function Books() {
                   <th scope="col">Language</th>
                   <th scope="col">Category</th>
                   <th scope="col">Added On</th>
+                  <th scope="col"> </th>
                 </tr>
               </thead>
               <tbody>

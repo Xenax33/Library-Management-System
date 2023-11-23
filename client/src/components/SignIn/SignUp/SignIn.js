@@ -24,7 +24,7 @@ function SignIn({ setLoader }) {
       if (data.data.data.isAdmin) {
         navigate("/dashboard");
       } else {
-        alert("user");
+        navigate("/member");
       }
     } else {
       alert("Log in unsuccessful");

@@ -1,0 +1,114 @@
+#body {
+  margin: 0;
+  position: relative;
+  background-image: url('https://res.cloudinary.com/djiqxvcin/image/upload/v1700668852/1_xnm63c.jpg') !important;
+  background-size: cover !important;
+  background-position: top !important;
+  background-repeat: no-repeat !important;
+  overflow: hidden; /* Hide any overflow to prevent the pseudo-element from causing issues */
+  background-position: top; /* Initial background position */
+  animation: fadeInUp 4s ;
+}
+
+@keyframes fadeInUp {
+  from {
+    background-position: bottom; /* Start position */
+  }
+  to {
+    background-position: center top; /* End position */
+  }
+}
+
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  margin-left: 5%;
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ul.topnav li {
+  margin-right: 20px;
+}
+
+ul.topnav li:last-child {
+  margin-right: 5%;
+}
+
+ul.topnav li div img.logoo {
+  width: 80px;
+  margin-right: 10px;
+  text-decoration: none; /* Remove underlining effect */
+}
+
+ul.topnav li div img.logoo:hover {
+  transition: transform 400ms ease;
+  transform: scale(1.04);
+}
+
+ul.topnav li a {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  color: black; /* Set the initial color */
+}
+
+ul.topnav li a::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: black; /* Set the underline color */
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+ul.topnav li a:hover::before,
+ul.topnav li a.active::before {
+  width: 100%;
+}
+
+ul.topnav li a:hover:not(.active) {
+  cursor: pointer;
+  color: black;
+  transform: scale(1.04);
+  transition: 400ms;
+}
+
+ul.topnav li a.active {
+  color: initial;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+ul.topnav li a:hover:active {
+  color: black !important;
+}
+
+ul.topnav li.right {
+  margin-left: auto;
+}
+
+@media screen and (max-width: 600px) {
+  ul.topnav {
+    flex-direction: column;
+    margin-left: 0;
+  }
+
+  ul.topnav li {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+
+  ul.topnav li.right {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

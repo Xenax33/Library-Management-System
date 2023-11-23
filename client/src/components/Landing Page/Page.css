@@ -1,4 +1,4 @@
-/* Page.css */
+
 .hero {
   width: 100%;
   height: 100vh;
@@ -10,13 +10,55 @@
   background-image: url("https://res.cloudinary.com/djiqxvcin/image/upload/v1696183343/background_vq0aot.png");
   background-color: white;
   background-size: cover;
-  background-position: center;
+  background-position: bottom; /* Initial background position */
+  animation: fadeInUp 2s ease forwards; /* Added "forwards" to keep the final state */
+}
+
+@keyframes fadeInUp {
+  from {
+    background-position: bottom; /* Start position */
+    opacity: 0; /* Start with opacity 0 for a fade-in effect */
+  }
+  to {
+    background-position: center top; /* End position */
+    opacity: 1; /* End with opacity 1 for a fade-in effect */
+  }
 }
 
 
-.hover:hover{
-  transition: 400ms;
+.library-text {
+  cursor:default;
+  color: white;
+  font-size: 30pt;
+  position: fixed;
+  background-color: transparent;
+  border-radius: 5px;
+  font-weight: bolder;
+  font-size:40pt;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* border: 2px solid white; */
+  padding: 5px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0; /* Set initial opacity to 0 */
+  animation: fadeIn 1s ease-out 2s forwards; /* Initial delay of 2 seconds before fading in */
+
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1; /* Fade in to full opacity */
+  }
+}
+
+
+.hover:hover {
+  transition: transform 400ms ease; /* Added missing transition property */
   transform: scale(1.04);
+  cursor: pointer;
 }
 
 nav {
@@ -32,17 +74,18 @@ nav {
 
 .logo {
   width: 80px;
-  margin-right: 10px; /* Add some margin between the logo and text */
+  margin-right: 10px;
+  cursor: pointer;
 }
 
-.logo:hover{
-  transition: 400ms;
+.logo:hover {
+  transition: transform 400ms ease; /* Added missing transition property */
   transform: scale(1.04);
 }
 
 h1 {
-  font-size: 24px; /* Example font size */
-  margin: 0; /* Reset margin for <h1> elements */
+  font-size: 24px;
+  margin: 0;
 }
 
 nav ul li {
@@ -51,21 +94,16 @@ nav ul li {
   margin-left: 40px;
 }
 
-
 .d-flex {
-  display: flex; /* Make its children appear in a row */
-  align-items: center; /* Center items vertically within the parent container */
+  display: flex;
+  align-items: center;
 }
 
 .about-us {
-  position: absolute;
   cursor: pointer;
-  top: 40%; /* Adjust the top position as needed */
-  left: 120px; /* Position on the left side of the screen */
-
+  position: absolute;
+  top: 40%;
+  left: 120px;
 }
 
-/* .about-us:hover{
-  transition: 400ms;
-  transform: scale(1.01);
-} */
+/* Removed commented out code */

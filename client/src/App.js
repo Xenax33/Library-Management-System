@@ -10,6 +10,8 @@ import Members from "./components/Admin/Members";
 import Books from "./components/Admin/Books";
 import AddBook from "./components/Admin/AddBooks";
 import Categories from "./components/Admin/Categories";
+import LandingPage from "./components/Member/LandingPage";
+import ShowBooks from "./components/Member/ShowBooks";
 
 function App() {
   const [Loader, setLoader] = useState(false);
@@ -24,6 +26,10 @@ function App() {
             <Route index path="books" element={<Books />} />
             <Route index path="addbook" element={<AddBook  setLoader={setLoader}/>} />
             <Route index path="categories" element={<Categories  setLoader={setLoader}/>} />
+          </Route>
+          <Route  path="/member" element={<LandingPage />}>
+          </Route>
+          <Route  path="/showbooks" element={<ShowBooks />}>
           </Route>
           <Route
             index

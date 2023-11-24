@@ -69,6 +69,17 @@ function AddBooks({ setLoader }) {
         ...editBook,
         [e.target.name]: selectedCategory ? selectedCategory.Name : "",
       });
+      BookAudit.CategoryIdAfter = selectedCategory.Name
+      setBookAudit((prevState) => ({
+        ...prevState,
+        TitleAfter: editBook.Title,
+        AuthorAfter: editBook.Author,
+        RentPriceAfter: editBook.RentPrice,
+        ImageAfter: editBook.Image,
+        FineAfter: editBook.Fine,
+        LanguageAfter: editBook.Language,
+        ISBNafter: editBook.ISBN,
+      }));
     } else {
       setBook({
         ...Book,
@@ -146,9 +157,33 @@ function AddBooks({ setLoader }) {
     }
   };
 
+  const SetAuditData = async () =>
+  {
+    BookAudit.TitleAfter =editBook.Title
+    BookAudit.AuthorAfter = editBook.Author
+    BookAudit.RentPriceAfter= editBook.RentPrice
+    BookAudit.ImageAfter= editBook.Image
+    BookAudit.FineAfter= editBook.Fine
+    BookAudit.CategoryIdAfter= editBook.CategoryId
+    BookAudit.LanguageAfter= editBook.Language
+    BookAudit.ISBNafter= editBook.ISBN
+  }
+
   const addBook = async (e) => {
     e.preventDefault();
     setLoader(true);
+    setBookAudit((prevState) => ({
+      ...prevState,
+      TitleAfter: editBook.Title,
+      AuthorAfter: editBook.Author,
+      RentPriceAfter: editBook.RentPrice,
+      ImageAfter: editBook.Image,
+      FineAfter: editBook.Fine,
+      CategoryIdAfter: editBook.CategoryId,
+      LanguageAfter: editBook.Language,
+      ISBNafter: editBook.ISBN,
+    }));
+    SetAuditData();
     if (Edit) {
       try {
         const response = await axios.put(

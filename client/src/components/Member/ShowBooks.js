@@ -54,6 +54,9 @@ function ShowBooks({ User }) {
             if (Response.data.success) {
               alert("You have purchased the book successfully.");
               getData();
+              filteredBooks = filteredBooks.filter(
+                (book) => book._id !== rentBook.BookId
+              );
             }
           } else {
             alert("There was some error in the transaction. Please try again");
@@ -74,6 +77,18 @@ function ShowBooks({ User }) {
         <NavBar Active={"Search Book"} />
       </div>
       <h1 style={{ textAlign: "center" }}>Books</h1>
+      <div className="my-3 mb-2 Search-box" style={{display: "block"}}>
+        <div className="d-flex">
+          <i className="bx bx-search icon"></i>
+          <input
+            type="text"
+            className="input"
+            placeholder="Search Book..."
+            onChange={onSearchChange}
+            autoComplete="new-password"
+          />
+        </div>
+      </div>
       <div className="row">
         {filteredBooks &&
           Array.isArray(filteredBooks) &&
@@ -82,8 +97,7 @@ function ShowBooks({ User }) {
               <div
                 id="container"
                 style={{
-                  background: ` url(${book.Image})`,
-                  backgroundSize: "cover",
+                  background: ` url(${book.Image})`
                 }}
               >
                 <div className="overlay">

@@ -16,20 +16,21 @@ router.post("/create", async (req, res) => {
   res.send({ success: true });
 });
 
-router.get("/checkUser/:id" , async (req,res) =>
-{
+router.get("/checkUser/:UserId/:BookId" , async (req, res) => {
   try {
-    const { id } = req.params
-    const data = await Category.find({ Name: Name });
+    const UserId = req.params.UserId;
+    const BookId = req.params.BookId;
+    const data = await Reserved.find({ UserId: UserId, BookId: BookId });
 
     if (data.length > 0) {
-      res.send({ success: true, data: data });
+      res.send({ success: false, data: data });
     } else {
-      res.send({ success: false, message: "No data found for the given Name." });
+      res.send({ success: true, message: "No data found for the given Name." });
     }
   } catch (error) {
-    res.send({ success: true, error: error.message });
+    res.send({ success: false, error: error.message });
   }
-})
+});
+
 
 module.exports = router;

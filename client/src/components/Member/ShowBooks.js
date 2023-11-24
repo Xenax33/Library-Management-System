@@ -42,9 +42,10 @@ function ShowBooks({ User }) {
   }, []);
 
   const buyBook = async (book) => {
+    // IF BOOK IS AVAILABLE
+    rentBook.BookId = book._id;
     if (book.IsAvailable) {
       try {
-        rentBook.BookId = book._id;
         if (rentBook.BookId !== "") {
           const response = await axios.post("/api/RentBook/create", rentBook);
           if (response.data.success) {
@@ -67,7 +68,30 @@ function ShowBooks({ User }) {
         alert("There was some error in the transaction. Please try again");
         navigate("/member");
       }
-    } else {
+    } 
+    //FOR RESERVING A BOOK FOR FUTURE RENTING
+    else {
+      if(true)
+      {
+        const response = await axios.get("/api/Reserved/checkUser/" + rentBook.UserId + "/" + rentBook.BookId);
+        if(response.data.success)
+        {
+          const Response = await axios.post("/api/Reserved/create" , rentBook)
+          if(Response.data.success)
+          {
+            alert("You have reserved this book")
+          }
+          else
+          {
+            alert("There was an error with the transaction. Please try again")
+            navigate("/member")
+          }
+        }
+        else
+        {
+          alert("You have already reserved this book.")
+        }
+      }
     }
   };
 

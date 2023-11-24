@@ -7,7 +7,6 @@ const RentBookSchema = new Schema(
     {
         RentedAt:{
             type: Date,
-            require: true,
             default:Date.now()
         },
         ReturnedAt:{
@@ -16,9 +15,11 @@ const RentBookSchema = new Schema(
         },
         Charged:{
             type: Number,
+            default: 0,
         },
         IsLateSubmit:{
             type: Boolean,
+            default: false
         },
         UserId:{
             type: String,

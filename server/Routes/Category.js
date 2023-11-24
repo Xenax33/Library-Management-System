@@ -13,6 +13,37 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/check/:Name", async (req, res) => {
+  try {
+    const { Name } = req.params
+    const data = await Category.find({ Name: Name });
+
+    if (data.length > 0) {
+      res.send({ success: true, data: data });
+    } else {
+      res.send({ success: false, message: "No data found for the given Name." });
+    }
+  } catch (error) {
+    res.send({ success: true, error: error.message });
+  }
+});
+
+
+router.post("/create" , async (req,res)=>
+{
+  try{
+    const data = Category(req.body);
+    await data.save().catch((err) => {
+      res.send({ success: false });
+    });
+    res.send({success: true})
+  }
+  catch(err)
+  {
+    res.send({success : false , error : err})
+  }
+})
+
 router.delete("/delete/:id", async (req, res) => {
   try {
     const { id } = req.params

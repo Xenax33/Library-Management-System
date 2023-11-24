@@ -4,7 +4,7 @@ import "./SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function SignIn({ setLoader }) {
+function SignIn({ setLoader, setuser}) {
   const navigate = useNavigate();
   const [User, setUser] = useState({
     Email: "",
@@ -21,9 +21,11 @@ function SignIn({ setLoader }) {
       "/api/User/login/" + User.Email + "/" + User.Password
     );
     if (data.data.success) {
+      console.log(data.data)
       if (data.data.data.isAdmin) {
         navigate("/dashboard");
       } else {
+        setuser(data.data.data)
         navigate("/member");
       }
     } else {

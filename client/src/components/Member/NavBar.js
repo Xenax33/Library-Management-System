@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./NavBar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 function NavBar( {Active}) {
   const [selectedItem, setSelectedItem] = useState(Active);
@@ -49,6 +49,14 @@ function NavBar( {Active}) {
             Reserved
           </a>
         </li>
+        <li>
+          <a
+            className={selectedItem === "Contact" ? "active" : ""}
+            onClick={() => handleItemClick("Contact")}
+          >
+            Return
+          </a>
+        </li>
         <li className="right d-flex">
           <a
             className={selectedItem === "Profile" ? "active" : ""}
@@ -64,6 +72,8 @@ function NavBar( {Active}) {
           </a>
         </li>
       </ul>
+      <div>
+      </div>
     </div>
   );
 }

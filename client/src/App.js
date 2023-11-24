@@ -12,9 +12,19 @@ import AddBook from "./components/Admin/AddBooks";
 import Categories from "./components/Admin/Categories";
 import LandingPage from "./components/Member/LandingPage";
 import ShowBooks from "./components/Member/ShowBooks";
+import AddCategory from "./components/Admin/AddCategory";
 
 function App() {
   const [Loader, setLoader] = useState(false);
+  const [User, setuser] = useState({
+    _id: "",
+    Name: "",
+    Email: "",
+    Password: "",
+    PhoneNo: "",
+    CNIC: "",
+    Image: "",
+  });
   return (
     <>
       {Loader && <Spinner />}
@@ -26,10 +36,11 @@ function App() {
             <Route index path="books" element={<Books />} />
             <Route index path="addbook" element={<AddBook  setLoader={setLoader}/>} />
             <Route index path="categories" element={<Categories  setLoader={setLoader}/>} />
+            <Route index path="addcategory" element={<AddCategory  setLoader={setLoader}/>} />
           </Route>
           <Route  path="/member" element={<LandingPage />}>
           </Route>
-          <Route  path="/showbooks" element={<ShowBooks />}>
+          <Route  path="/showbooks" element={<ShowBooks setLoader={setLoader} User = {User}/>}>
           </Route>
           <Route
             index
@@ -39,7 +50,7 @@ function App() {
           <Route
             index
             path="/signin"
-            element={<SignIn setLoader={setLoader} />}
+            element={<SignIn setLoader={setLoader} setuser = {setuser} />}
           />
         </Routes>
       </BrowserRouter>

@@ -1,0 +1,18 @@
+          {/* <div className="card mx-3" id="card">
+            <img src="logo.png" alt="Denim Jeans" style={{ width: "100%" }} />
+            <div className="card-content">
+              <h1>Tailored Jeans</h1>
+              <p className="price" id="price">
+                $19.99
+              </p>
+              <p>
+                Some text about the jeans. Super slim and comfy lorem ipsum
+                lorem jeansum. Lorem jeamsun denim lorem jeansum.
+              </p>
+              <p>
+                <button className="button2" id="button">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+          </div> */}

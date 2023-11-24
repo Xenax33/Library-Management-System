@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import AddCategory from "./AddCategory";
 
 function Categories() {
   const [categories, setCategories] = useState(null);
@@ -41,6 +42,11 @@ function Categories() {
     getData();
   }, []);
 
+  const addCategory = async(e)=>
+  {
+    navigate('/dashboard/addcategory')
+  }
+
   const filteredCategories =
     categories &&
     Array.isArray(categories) &&
@@ -70,14 +76,14 @@ function Categories() {
           </div>
         </div>
 
-        <Link to={"/dashboard"}>
+        <Link to={"/dashboard/addcategory"}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
               className="button2"
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
-              //   onClick={AddBook}
+                onClick={addCategory}
             >
               Add Category
             </button>

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Books() {
   const [Books, setBooks] = useState([]);
-  const [Book , setBook] = useState(null);
   const navigate = useNavigate();
-  const [Modal, setModal] = useState(true);
   const [searchTitle, setsearchTitle] = useState("");
   let filteredBooks = Books; // Initialize filteredBooks with Books initially
 
@@ -43,7 +41,6 @@ function Books() {
   {
     try
     {
-      console.log(book._id)
       const response = await axios.put("/api/Books/changeavailability/" + book._id);
       if(response.data.success)
       {
@@ -75,9 +72,6 @@ function Books() {
     setsearchTitle(e.target.value);
   };
 
-  const AddBook = () => {
-    setModal(true);
-  };
 
   if (Books) {
     filteredBooks = Books.filter((book) => {
@@ -114,7 +108,6 @@ function Books() {
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
-              onClick={AddBook}
             >
               Add Book
             </button>

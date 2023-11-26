@@ -17,6 +17,9 @@ import Profile from "./components/Member/Profile";
 import ChangePassword from "./components/Member/ChangePassword";
 import ReservedBooks from "./components/Member/ReservedBooks";
 import ReturnBook from "./components/Member/ReturnBook";
+import BooksInfo from "./components/Admin/BooksInfo";
+import Dashboard from "./components/Admin/Dashboard";
+import UserInfo from "./components/Admin/UserInfo";
 
 function App() {
   const [Loader, setLoader] = useState(false);
@@ -37,10 +40,13 @@ function App() {
           <Route index path="/" element={<Page />} />
           <Route  path="/dashboard" element={<SideBar />}>
             <Route index path="members" element={<Members />} />
+            <Route index path="membersinfo" element={<UserInfo />} />
+            <Route index path="dashboard" element={<Dashboard />} />
             <Route index path="books" element={<Books />} />
             <Route index path="addbook" element={<AddBook  setLoader={setLoader}/>} />
             <Route index path="categories" element={<Categories  setLoader={setLoader}/>} />
             <Route index path="addcategory" element={<AddCategory  setLoader={setLoader}/>} />
+            <Route index path="booksinfo" element={<BooksInfo  setLoader={setLoader}/>} />
           </Route>
           <Route  path="/member" element={<LandingPage />}>
           </Route>

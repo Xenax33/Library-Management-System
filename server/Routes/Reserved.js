@@ -38,6 +38,21 @@ router.get("/checkUser/:UserId/:BookId", async (req, res) => {
   }
 });
 
+router.get("/getUsers/:BookId", async (req, res) => {
+  try {
+    const BookId = req.params.BookId;
+    const data = await Reserved.find({ BookId: BookId , IsRented: false });
+
+    if (data.length > 0) {
+      res.send({ success: true, data: data });
+    } else {
+      res.send({ success: false, message: "No data found for the given Name." });
+    }
+  } catch (error) {
+    res.send({ success: false, error: error.message });
+  }
+});
+
 router.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
   try {

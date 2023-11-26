@@ -113,4 +113,22 @@ router.put("/returnBook/:UserId/:BookId", async (req, res) => {
   }
 });
 
+router.get("/rentedCheck/:BookId", async (req, res) => {
+  const BookId = req.params.BookId;
+  try {
+    const data = await RentBook.find({
+      BookId: BookId,
+      ReturnedAt: null,
+    });
+
+    if (data.length > 0) {
+      res.send({ success: true, data: data });
+    } else {
+      res.send({ success: false });
+    }
+  } catch (error) {
+    res.send({ success: false, error: error.message });
+  }
+});
+
 module.exports = router;

@@ -108,7 +108,7 @@ router.put("/editpassword/:id", async (req, res) => {
 });
 
 router.get("/get/:id", async (req, res) => {
-  const { id } = req.params; // Use req.params.id directly, no need to destructure again
+  const { id } = req.params;
   try {
     const data = await User.findById(id);
     if (data) {

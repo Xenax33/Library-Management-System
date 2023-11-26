@@ -35,7 +35,7 @@ function Books() {
   }
   const handleInfo = (book) =>
   {
-    console.log(book)
+    navigate("/dashboard/booksinfo", { state: { book } });
   }
   const handleDelete = async (book) =>
   {

@@ -74,8 +74,8 @@ function Members() {
 
   return (
     <>
-      <div className="text-center my-3">
-        <h1 style={{fontWeight: "bolder"}} >MEMBERS</h1>
+      <div className="text-center ">
+        <h1 style={{fontWeight: "bolder" , paddingTop: "2%"}} >MEMBERS</h1>
       </div>
       <div className="my-5 d-flex justify-content-between">
         <div>

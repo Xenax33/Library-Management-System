@@ -56,7 +56,7 @@ function Categories() {
 
   return (
     <div className="text-center">
-      <h1 className="my-3" style={{ fontWeight: "bold" }}>
+      <h1 style={{ fontWeight: "bold" , paddingTop : "2%"}}>
         CATEGORIES
       </h1>
 

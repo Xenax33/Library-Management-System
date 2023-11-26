@@ -10,25 +10,33 @@ function ShowBooks({ User }) {
     UserId: "",
     BookId: "",
   });
-  let filteredBooks = Books;
+  const [filteredBooks, setFilteredBooks] = useState(null);
   const navigate = useNavigate();
   const [searchTitle, setsearchTitle] = useState("");
+  const [Categories, setCategories] = useState(null);
 
   const onSearchChange = (e) => {
     setsearchTitle(e.target.value);
   };
 
-  if (Books) {
-    filteredBooks = Books.filter((book) => {
-      return book.Title.toLowerCase().includes(searchTitle.toLowerCase());
-    });
-  }
+  const filterBooksBySearch = () => {
+    if (Books) {
+      const booksInCategory = Books.filter((book) => {
+        return book.Title.toLowerCase().includes(searchTitle.toLowerCase());
+      });
+      setFilteredBooks(booksInCategory);
+    }
+  };
+
+  useEffect(() => {
+    filterBooksBySearch();
+  }, [searchTitle, Books]);
 
   const getData = async () => {
     try {
       const response = await axios.get("/api/Books/getBooks");
       setBooks(response.data.data);
-      filteredBooks = response.data.data;
+      setFilteredBooks(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
       alert("Error occured while reading data");
@@ -36,63 +44,90 @@ function ShowBooks({ User }) {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      const response = await axios.get("/api/Category/");
+      setCategories(response.data.data);
+    } catch (err) {
+      alert("There was an error fetching the data");
+      navigate("/member");
+    }
+  };
+
   useEffect(() => {
     getData();
+    getCategories();
     rentBook.UserId = User._id;
   }, []);
 
   const buyBook = async (book) => {
-    // IF BOOK IS AVAILABLE
-    rentBook.BookId = book._id;
-    if (book.IsAvailable) {
-      try {
-        if (rentBook.BookId !== "") {
-          const response = await axios.post("/api/RentBook/create", rentBook);
-          if (response.data.success) {
-            const Response = await axios.put(
-              "/api/Books/changeavailability/" + book._id
-            );
-            if (Response.data.success) {
-              alert("You have purchased the book successfully.");
-              getData();
-              filteredBooks = filteredBooks.filter(
-                (book) => book._id !== rentBook.BookId
+    try {
+      // IF BOOK IS AVAILABLE
+      rentBook.BookId = book._id;
+      if (book.IsAvailable) {
+        try {
+          if (rentBook.BookId !== "") {
+            const response = await axios.post("/api/RentBook/create", rentBook);
+            if (response.data.success) {
+              const Response = await axios.put(
+                "/api/Books/changeavailability/" + book._id
               );
+              if (Response.data.success) {
+                alert("You have purchased the book successfully.");
+                getData();
+              }
+            } else {
+              alert(
+                "There was some error in the transaction. Please try again"
+              );
+              navigate("/member");
+            }
+          }
+        } catch (err) {
+          alert("There was some error in the transaction. Please try again");
+          navigate("/member");
+        }
+      }
+      //FOR RESERVING A BOOK FOR FUTURE RENTING
+      else {
+        const Check = await axios.get(
+          "/api/RentBook/returnCheck/" + rentBook.UserId + "/" + rentBook.BookId
+        );
+        if (Check.data.success) {
+          const response = await axios.get(
+            "/api/Reserved/checkUser/" + rentBook.UserId + "/" + rentBook.BookId
+          );
+          if (response.data.success) {
+            const Response = await axios.post("/api/Reserved/create", rentBook);
+            if (Response.data.success) {
+              alert("You have reserved this book");
+            } else {
+              alert(
+                "There was an error with the transaction. Please try again"
+              );
+              navigate("/member");
             }
           } else {
-            alert("There was some error in the transaction. Please try again");
-            navigate("/member");
+            alert("You have already reserved this book.");
           }
-        }
-      } catch (err) {
-        alert("There was some error in the transaction. Please try again");
-        navigate("/member");
-      }
-    } 
-    //FOR RESERVING A BOOK FOR FUTURE RENTING
-    else {
-      if(true)
-      {
-        const response = await axios.get("/api/Reserved/checkUser/" + rentBook.UserId + "/" + rentBook.BookId);
-        if(response.data.success)
-        {
-          const Response = await axios.post("/api/Reserved/create" , rentBook)
-          if(Response.data.success)
-          {
-            alert("You have reserved this book")
-          }
-          else
-          {
-            alert("There was an error with the transaction. Please try again")
-            navigate("/member")
-          }
-        }
-        else
-        {
-          alert("You have already reserved this book.")
+        } else {
+          alert("You have already rented this book.");
         }
       }
+    } catch (err) {
+      alert("There was some error with the transaction")
     }
+  };
+
+  const ShowAllBooks = async () => {
+    setFilteredBooks(Books);
+  };
+
+  const ShowSpecificCategory = async (Name) => {
+    const booksInCategory = Books.filter((book) => {
+      return book.CategoryId.toLowerCase().includes(Name.toLowerCase());
+    });
+    setFilteredBooks(booksInCategory);
   };
 
   return (
@@ -101,7 +136,7 @@ function ShowBooks({ User }) {
         <NavBar Active={"Search Book"} />
       </div>
       <h1 style={{ textAlign: "center" }}>Books</h1>
-      <div className="my-3 mb-2 Search-box" style={{display: "block"}}>
+      <div className="my-3 mb-2 Search-box" style={{ display: "block" }}>
         <div className="d-flex">
           <i className="bx bx-search icon"></i>
           <input
@@ -113,6 +148,33 @@ function ShowBooks({ User }) {
           />
         </div>
       </div>
+      <div
+        className="justify-content-center my-3"
+        style={{
+          overflowX: "scroll",
+          whiteSpace: "nowrap",
+          flexWrap: "wrap",
+          scrollBehavior: "smooth",
+          scrollbarColor: "#FFBB5C",
+          padding: "10px", // Adjust this value as needed
+        }}
+      >
+        <button className="button5 mx-3" onClick={ShowAllBooks}>
+          All
+        </button>
+        {Categories &&
+          Array.isArray(Categories) &&
+          Categories.map((category) => (
+            <button
+              key={category._id}
+              className="button5 mx-3"
+              onClick={() => ShowSpecificCategory(category.Name)}
+            >
+              {category.Name}
+            </button>
+          ))}
+      </div>
+
       <div className="row">
         {filteredBooks &&
           Array.isArray(filteredBooks) &&
@@ -121,7 +183,7 @@ function ShowBooks({ User }) {
               <div
                 id="container"
                 style={{
-                  background: ` url(${book.Image})`
+                  background: ` url(${book.Image})`,
                 }}
               >
                 <div className="overlay">

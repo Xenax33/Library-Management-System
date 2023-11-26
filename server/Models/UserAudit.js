@@ -4,52 +4,41 @@ const router = express.Router();
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  OldName: {
-    type: String,
-    require: true,
-  },
-  NewName: {
+  NameBefore: {
     type: String,
   },
-  OldEmail: {
-    type: String,
-    require: true,
-  },
-  NewEmail: {
+  NameAfter: {
     type: String,
   },
-  OldPassword: {
+  Email: {
     type: String,
-    require: true,
   },
-  NewPassword: {
+  PasswordBefore: {
+    type: String,
+  },
+  PasswordAfter: {
     type: String,
   },
   UpdatedAt: {
     type: Date,
     default: Date.now,
   },
-  Active: {
-    type: Boolean,
-    default: false,
-  },
-  OldCNIC: {
-    type: String,
-    require: true,
-  },
-  NewCNIC: {
+  CNICBefore: {
     type: String,
   },
-  OldPhoneNo: {
-    type: Number,
-  },
-  NewPhoneNo: {
-    type: Number,
-  },
-  OldImage: {
+  CNICAfter: {
     type: String,
   },
-  NewImage: {
+  PhoneNoBefore: {
+    type: String,
+  },
+  PhoneNoAfter: {
+    type: String,
+  },
+  ImageBefore: {
+    type: String,
+  },
+  ImageAfter: {
     type: String,
   },
 });

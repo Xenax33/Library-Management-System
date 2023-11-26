@@ -13,6 +13,7 @@ import Categories from "./components/Admin/Categories";
 import LandingPage from "./components/Member/LandingPage";
 import ShowBooks from "./components/Member/ShowBooks";
 import AddCategory from "./components/Admin/AddCategory";
+import Profile from "./components/Member/Profile";
 
 function App() {
   const [Loader, setLoader] = useState(false);
@@ -39,6 +40,8 @@ function App() {
             <Route index path="addcategory" element={<AddCategory  setLoader={setLoader}/>} />
           </Route>
           <Route  path="/member" element={<LandingPage />}>
+          </Route>
+          <Route  path="/profile" element={<Profile User = {User}  setLoader={setLoader}/>}>
           </Route>
           <Route  path="/showbooks" element={<ShowBooks setLoader={setLoader} User = {User}/>}>
           </Route>

@@ -70,5 +70,17 @@ router.put("/delete/:id", async (req, res) => {
   }
 });
 
+router.put("/edit/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res.send({ success: true, data: updatedUser });
+  } catch (err) {
+    res.send({ success: false, error: err });
+  }
+});
+
 
 module.exports = router;

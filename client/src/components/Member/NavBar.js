@@ -20,6 +20,10 @@ function NavBar( {Active}) {
     {
         navigate('/member')
     }
+    else if(item == "Profile")
+    {
+        navigate('/profile')
+    }
   };
   return (
     <div>
@@ -43,21 +47,21 @@ function NavBar( {Active}) {
         </li>
         <li>
           <a
-            className={selectedItem === "Contact" ? "active" : ""}
-            onClick={() => handleItemClick("Contact")}
+            className={selectedItem === "Reserved" ? "active" : ""}
+            onClick={() => handleItemClick("Reserved")}
           >
             Reserved
           </a>
         </li>
         <li>
           <a
-            className={selectedItem === "Contact" ? "active" : ""}
-            onClick={() => handleItemClick("Contact")}
+            className={selectedItem === "Return" ? "active" : ""}
+            onClick={() => handleItemClick("Return")}
           >
             Return
           </a>
         </li>
-        <li className="right d-flex">
+        <li className="right d-flex" style={{display:"flex"}}>
           <a
             className={selectedItem === "Profile" ? "active" : ""}
             onClick={() => handleItemClick("Profile")}

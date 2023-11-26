@@ -111,11 +111,6 @@ function AddBooks({ setLoader }) {
     }
   }, [book]); // Add book as a dependency
 
-  useEffect(() => {
-    console.log(BookAudit);
-    console.log(editBook);
-  }, [BookAudit, editBook]); // Add BookAudit and editBook as dependencies
-
   const getData = async () => {
     try {
       const response = await axios.get("/api/Category/");

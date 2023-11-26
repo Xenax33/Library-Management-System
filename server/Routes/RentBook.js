@@ -18,4 +18,22 @@ router.post("/create", async (req, res) => {
   res.send({ success: true });
 });
 
+router.get("/returnCheck/:UserId/:BookId", async (req, res) => {
+  const UserId = req.params.UserId;
+  const BookId = req.params.BookId;
+
+  try {
+    const data = await RentBook.find({ UserId: UserId, BookId: BookId, ReturnedAt: null });
+
+    if (data.length > 0) {
+      res.send({ success: false, data: data });
+    } else {
+      res.send({ success: true });
+    }
+  } catch (error) {
+    res.send({ success: false, error: error.message });
+  }
+});
+
+
 module.exports = router;

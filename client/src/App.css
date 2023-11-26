@@ -1,5 +1,6 @@
 body {
   font-family: 'Montserrat';font-size: 22px;
+  scroll-behavior: smooth;
 }
 
 .heading{
@@ -66,6 +67,16 @@ body {
   cursor: pointer;
   transition: var(--tran-05);
   transform: translateY(0);
+}
+.button5 {
+  background-color: #C63D2F;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: bolder;
+  padding: 8px 20px;
+  cursor: pointer;
 }
 .button2:hover {
   transform: scale(1.04);

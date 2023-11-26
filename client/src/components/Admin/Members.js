@@ -55,7 +55,7 @@ function Members() {
 
   const handleInfo = (member) =>
   {
-
+    navigate("/dashboard/membersinfo", { state: { member } });
   }
 
   useEffect(() => {
@@ -97,7 +97,7 @@ function Members() {
         </div>
       </div>
 
-      <div className="d-flex">
+      <div className="d-flex" style={{fontSize: "14pt"}}>
         <div className="container mt-5 px-2">
           <div className="table-responsive">
             <table className="table table-responsive table-borderless" id="Table">
@@ -113,7 +113,7 @@ function Members() {
                   <th scope="col"> </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 {filteredUsers &&
                   Array.isArray(filteredUsers) &&
                   filteredUsers.map((member) => (

@@ -115,7 +115,7 @@ function Books() {
         </Link>
       </div>
 
-      <div className="d-flex">
+      <div className="d-flex" style={{fontSize: "14pt"}}>
         <div className="container mt-5 px-2">
           <div className="table-responsive">
             <table className="table table-responsive" id="Table">
@@ -135,7 +135,7 @@ function Books() {
                   <th scope="col"> </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 {filteredBooks &&
                   Array.isArray(filteredBooks) &&
                   filteredBooks.map((book) => (

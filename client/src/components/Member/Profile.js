@@ -40,6 +40,12 @@ function Profile({ User, setLoader }) {
   }, [user]);
 
   useEffect(() => {
+    if(User === undefined || User === null || User._id === "")
+    {
+      alert("Session expired")
+      navigate("/")
+    }
+    console.log(User)
     setUser(User);
     setUserAudit((prevState) => ({
       ...prevState,

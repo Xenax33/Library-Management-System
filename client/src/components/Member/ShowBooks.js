@@ -55,6 +55,10 @@ function ShowBooks({ User }) {
   };
 
   useEffect(() => {
+    if (User._id === "") {
+      alert("Session expired. Please login again");
+      navigate("/");
+    }
     getData();
     getCategories();
     rentBook.UserId = User._id;

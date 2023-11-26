@@ -31,8 +31,13 @@ function ChangePassword() {
   };
 
   useEffect(() => {
+    if(receivedData === null || receivedData === undefined)
+    {
+      alert("Session expired.")
+      navigate("/")
+    }
+    console.log(receivedData)
     getData();
-    console.log(recievedUserAudit);
   }, []);
 
   const Exit = async () => {

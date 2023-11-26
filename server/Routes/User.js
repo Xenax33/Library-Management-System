@@ -49,7 +49,7 @@ router.get("/logIn/:email/:password", async (req, res) => {
   const Email = req.params.email;
   const Password = req.params.password;
   try {
-    const data = await User.findOne({ Email, Password });
+    const data = await User.findOne({ Email, Password , Active : true });
     if (data) {
       res.send({ success: true, data });
     } else {

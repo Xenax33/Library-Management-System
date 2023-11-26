@@ -5,26 +5,31 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 function ReservedBooks({ User }) {
+  const [rentBook, setRentBook] = useState({
+    UserId: "",
+    BookId: "",
+  });
   const navigate = useNavigate();
   const [reservedBooks, setReservedBooks] = useState(null);
   const [books, setBooks] = useState(null);
   const [gotBooks, setGotBooks] = useState(false);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/Reserved/getlist/" + User._id);
+      setReservedBooks(response.data.data);
+    } catch (error) {
+      console.error("Error fetching reserved books:", error);
+    }
+  };
   useEffect(() => {
     if (User._id === "") {
       alert("Session expired. Please login again");
       navigate("/");
     }
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/Reserved/getlist/" + User._id);
-        setReservedBooks(response.data.data);
-      } catch (error) {
-        console.error("Error fetching reserved books:", error);
-      }
-    };
 
     fetchData();
+    rentBook.UserId = User._id;
   }, []);
 
   const getBooks = async () => {
@@ -41,10 +46,42 @@ function ReservedBooks({ User }) {
     }
   };
 
-  const RentBook = async (book) =>
-  {
-    console.log(book)
-  }
+  const RentBook = async (book) => {
+    console.log(book);
+    rentBook.BookId = book._id;
+    if (book.IsAvailable) {
+      try {
+        if (rentBook.BookId !== "") {
+          const Response = await axios.put(
+            "/api/Reserved/rented/" + rentBook.UserId + "/" + rentBook.BookId
+          );
+          if (Response.data.success) {
+            const response = await axios.post("/api/RentBook/create", rentBook);
+            if (response.data.success) {
+              const Response = await axios.put(
+                "/api/Books/changeavailability/" + book._id
+              );
+              if (Response.data.success) {
+                alert("You have purchased the book successfully.");
+                fetchData();
+              }
+            } else {
+              alert(
+                "There was some error in the transaction. Please try again"
+              );
+              navigate("/member");
+            }
+          } else {
+            alert("There was some error in the transaction. Please try again");
+            navigate("/member");
+          }
+        }
+      } catch (err) {
+        alert("There was some error in the transaction. Please try again");
+        navigate("/member");
+      }
+    }
+  };
 
   useEffect(() => {
     getBooks();
@@ -106,7 +143,7 @@ function ReservedBooks({ User }) {
                         </div>
                         <div className="items cart">
                           <i className="fa fa-shopping-cart"></i>
-                          <span onClick={()=> RentBook(book)}>Rent Out</span>
+                          <span onClick={() => RentBook(book)}>Rent Out</span>
                         </div>
                       </div>
                     </div>

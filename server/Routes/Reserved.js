@@ -10,10 +10,9 @@ router.get("/", async (req, res) => {
 
 router.get("/getlist/:userId", async (req, res) => {
   const { userId } = req.params; // Use userId instead of id
-  const data = await Reserved.find({ UserId: userId  , IsRented: false});
+  const data = await Reserved.find({ UserId: userId, IsRented: false });
   res.send({ success: true, data: data });
 });
-
 
 router.post("/create", async (req, res) => {
   const data = Reserved(req.body);
@@ -46,6 +45,33 @@ router.delete("/delete/:id", async (req, res) => {
     res.send({ success: true });
   } catch (err) {
     res.send({ success: false });
+  }
+});
+
+router.put("/rented/:UserId/:BookId", async (req, res) => {
+  const UserId = req.params.UserId;
+  const BookId = req.params.BookId;
+
+  try {
+    const data = await Reserved.findOne({
+      UserId: UserId,
+      BookId: BookId,
+      IsRented: false,
+    });
+
+    if (data) {
+      // Update the document properties
+      data.IsRented = true;
+
+      // Save the changes
+      await data.save();
+
+      res.json({ success: true, message: "Data updated successfully" });
+    } else {
+      res.json({ success: false, message: "Rent record not found" });
+    }
+  } catch (err) {
+    res.json({ success: false, message: err.message });
   }
 });
 module.exports = router;

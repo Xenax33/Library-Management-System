@@ -76,7 +76,7 @@ router.put("/returningBook/:id", async (req, res) => {
     // Update the IsAvailable to the opposite value
     currentBook.IsAvailable = !currentBook.IsAvailable;
     const chargedAmount = Number(req.body.Charged);
-    currentBook.Charged += chargedAmount;
+    currentBook.TotalEarning += chargedAmount;
 
     // Save the updated document
     const updatedBook = await currentBook.save();

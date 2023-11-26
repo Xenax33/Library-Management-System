@@ -15,6 +15,8 @@ import ShowBooks from "./components/Member/ShowBooks";
 import AddCategory from "./components/Admin/AddCategory";
 import Profile from "./components/Member/Profile";
 import ChangePassword from "./components/Member/ChangePassword";
+import ReservedBooks from "./components/Member/ReservedBooks";
+import ReturnBook from "./components/Member/ReturnBook";
 
 function App() {
   const [Loader, setLoader] = useState(false);
@@ -47,6 +49,10 @@ function App() {
           <Route  path="/showbooks" element={<ShowBooks setLoader={setLoader} User = {User}/>}>
           </Route>
           <Route  path="/changepassword" element={<ChangePassword setLoader={setLoader} User = {User}/>}>
+          </Route>
+          <Route  path="/reserved" element={<ReservedBooks setLoader={setLoader} User = {User}/>}>
+          </Route>
+          <Route  path="/returnbook" element={<ReturnBook setLoader={setLoader} User = {User}/>}>
           </Route>
           <Route
             index

@@ -24,6 +24,14 @@ function NavBar( {Active}) {
     {
         navigate('/profile')
     }
+    else if(item == "Reserved")
+    {
+        navigate('/reserved')
+    }
+    else if(item == "Return")
+    {
+        navigate('/returnbook')
+    }
   };
   return (
     <div>

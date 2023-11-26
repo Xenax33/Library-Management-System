@@ -115,7 +115,7 @@ function ShowBooks({ User }) {
         }
       }
     } catch (err) {
-      alert("There was some error with the transaction")
+      alert("There was some error with the transaction");
     }
   };
 

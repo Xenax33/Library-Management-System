@@ -8,6 +8,13 @@ router.get("/", async (req, res) => {
   res.send({ success: true, data: data });
 });
 
+router.get("/getlist/:userId", async (req, res) => {
+  const { userId } = req.params; // Use userId instead of id
+  const data = await Reserved.find({ UserId: userId  , IsRented: false});
+  res.send({ success: true, data: data });
+});
+
+
 router.post("/create", async (req, res) => {
   const data = Reserved(req.body);
   await data.save().catch((err) => {
@@ -16,7 +23,7 @@ router.post("/create", async (req, res) => {
   res.send({ success: true });
 });
 
-router.get("/checkUser/:UserId/:BookId" , async (req, res) => {
+router.get("/checkUser/:UserId/:BookId", async (req, res) => {
   try {
     const UserId = req.params.UserId;
     const BookId = req.params.BookId;
@@ -32,5 +39,13 @@ router.get("/checkUser/:UserId/:BookId" , async (req, res) => {
   }
 });
 
-
+router.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await Reserved.findByIdAndRemove(id);
+    res.send({ success: true });
+  } catch (err) {
+    res.send({ success: false });
+  }
+});
 module.exports = router;

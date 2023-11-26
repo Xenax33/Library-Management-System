@@ -47,6 +47,11 @@ const BookSchema = new Schema(
       type: String,
       require: true,
     },
+    TotalEarning:
+    {
+      type: Number,
+      default: 0
+    }
   },
   { timestamps: true }
 );

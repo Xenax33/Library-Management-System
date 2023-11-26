@@ -82,5 +82,44 @@ router.put("/edit/:id", async (req, res) => {
   }
 });
 
+router.put("/editpassword/:id", async (req, res) => {
+  const userId = req.params.id;
+  const newPassword = req.body.newPassword;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Update the password field
+    user.Password = newPassword;
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ success: true, message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
+});
+
+router.get("/get/:id", async (req, res) => {
+  const { id } = req.params; // Use req.params.id directly, no need to destructure again
+  try {
+    const data = await User.findById(id);
+    if (data) {
+      res.send({ success: true, data: data });
+    } else {
+      res.send({ success: false, message: "User not found" });
+    }
+  } catch (err) {
+    res.send({ success: false, error: err.message });
+  }
+});
+
 
 module.exports = router;

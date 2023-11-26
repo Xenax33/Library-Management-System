@@ -14,6 +14,7 @@ import LandingPage from "./components/Member/LandingPage";
 import ShowBooks from "./components/Member/ShowBooks";
 import AddCategory from "./components/Admin/AddCategory";
 import Profile from "./components/Member/Profile";
+import ChangePassword from "./components/Member/ChangePassword";
 
 function App() {
   const [Loader, setLoader] = useState(false);
@@ -44,6 +45,8 @@ function App() {
           <Route  path="/profile" element={<Profile User = {User}  setLoader={setLoader}/>}>
           </Route>
           <Route  path="/showbooks" element={<ShowBooks setLoader={setLoader} User = {User}/>}>
+          </Route>
+          <Route  path="/changepassword" element={<ChangePassword setLoader={setLoader} User = {User}/>}>
           </Route>
           <Route
             index

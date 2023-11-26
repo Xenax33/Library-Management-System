@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -236,23 +236,6 @@ function SignUp({ setLoader }) {
                   />
                 </div>
               </div>
-              {/* <div>
-                <div className="form-check align-items-center">
-                  <input
-                    id="customControlInline"
-                    type="checkbox"
-                    className="form-check-input"
-                    name="remember-me"
-                    checked
-                  />
-                  <label
-                    className="form-check-label text-small"
-                    htmlFor="customControlInline"
-                  >
-                    Remember me
-                  </label>
-                </div>
-              </div> */}
             </form>
           </div>
         </div>

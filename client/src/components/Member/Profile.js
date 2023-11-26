@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import "./Profile.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import ChangePassword from "./ChangePassword";
 
 function Profile({ User, setLoader }) {
   const [user, setUser] = useState({
@@ -24,7 +25,7 @@ function Profile({ User, setLoader }) {
     CNICAfter: "",
     PasswordBefore: "",
     PasswordAfter: "",
-    Email: ""
+    Email: "",
   });
 
   useEffect(() => {
@@ -71,6 +72,15 @@ function Profile({ User, setLoader }) {
     }
   };
 
+  const ChangePassword = async () => {
+    const dataToSend = {
+      User: User, // Assuming User is an object
+      UserAudit : userAudit
+    };
+
+    navigate("/changepassword", { state: dataToSend });
+  };
+
   const EditUser = async () => {
     setLoader(true);
     setUserAudit((prevState) => ({
@@ -83,13 +93,11 @@ function Profile({ User, setLoader }) {
     try {
       const response = await axios.put("/api/User/edit/" + user._id, user);
       if (response.data.success) {
-        console.log(userAudit)
+        console.log(userAudit);
         const Response = await axios.post("/api/UserAudit/create", userAudit);
         if (Response.data.success) {
           alert("Data edited successfully");
-        }
-        else
-        {
+        } else {
           alert("Auditing is not working");
         }
       } else {
@@ -192,8 +200,8 @@ function Profile({ User, setLoader }) {
       }));
       setUserAudit((prevState) => ({
         ...prevState,
-        ImageAfter: urlData
-      })) 
+        ImageAfter: urlData,
+      }));
     };
 
     function slice(file, start, end) {
@@ -267,7 +275,9 @@ function Profile({ User, setLoader }) {
           </div>
         </div>
         <div className="d-flex justify-content-end">
-          <button className="button2">Change Password</button>
+          <button className="button2" onClick={ChangePassword}>
+            Change Password
+          </button>
           <button className="button2 mx-3" onClick={EditUser}>
             Confirm
           </button>

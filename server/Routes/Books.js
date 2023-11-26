@@ -87,4 +87,43 @@ router.put("/returningBook/:id", async (req, res) => {
   }
 });
 
+router.get("/getTotalEarnings", async (req, res) => {
+  try {
+    // Aggregate pipeline to calculate the sum of TotalEarnings
+    const result = await Book.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalEarnings: { $sum: "$TotalEarning" },
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Exclude _id field from the result
+          totalEarnings: 1,
+        },
+      },
+    ]);
+
+    // If there are no books, the result will be an empty array
+    const totalEarnings = result.length > 0 ? result[0].totalEarnings : 0;
+
+    res.json({ success: true, totalEarnings });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// GET API to get the number of books in the database
+router.get("/getTotalBooks", async (req, res) => {
+  try {
+    // Count the total number of books
+    const totalBooks = await Book.countDocuments();
+
+    res.json({ success: true, totalBooks });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 module.exports = router;

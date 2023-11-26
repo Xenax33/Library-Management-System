@@ -122,4 +122,15 @@ router.get("/get/:id", async (req, res) => {
 });
 
 
+router.get("/getTotalUsers", async (req, res) => {
+  try {
+    // Count the total number of books
+    const totalUser = await User.countDocuments();
+
+    res.json({ success: true, totalUser });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 module.exports = router;

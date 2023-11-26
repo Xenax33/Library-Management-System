@@ -149,4 +149,16 @@ router.get("/getuser/:UserId", async (req, res) => {
   }
 });
 
+
+router.get("/getTotalRentBooks", async (req, res) => {
+  try {
+    // Count the total number of books
+    const totalUser = await RentBook.countDocuments();
+
+    res.json({ success: true, totalUser });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 module.exports = router;

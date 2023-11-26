@@ -112,7 +112,6 @@ function UserInfo() {
                       <th scope="col">ISBN</th>
                       <th scope="col">Language</th>
                       <th scope="col">Category</th>
-                      <th scope="col">Added On</th>
                       {/* Add other header columns here */}
                     </tr>
                   </thead>
@@ -137,7 +136,6 @@ function UserInfo() {
                               <td>{book.ISBN}</td>
                               <td>{book.Language}</td>
                               <td>{book.CategoryId}</td>
-                              <td>{getDate(book.CreatedAt)}</td>
                               {/* Add other columns for book properties */}
                             </tr>
                           ))}

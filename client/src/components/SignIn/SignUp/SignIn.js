@@ -23,7 +23,7 @@ function SignIn({ setLoader, setuser}) {
     if (data.data.success) {
       console.log(data.data)
       if (data.data.data.isAdmin) {
-        navigate("/dashboard");
+        navigate("/dashboard/dashboard");
       } else {
         setuser(data.data.data)
         navigate("/member");
